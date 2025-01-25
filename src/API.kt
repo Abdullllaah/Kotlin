@@ -1,7 +1,3 @@
-import java.time.Duration
-import java.time.LocalTime
-import kotlin.math.ceil
-
 class IpInformation(val ip: String, val port: UInt){
     override fun toString(): String {
         return "(IP=${this.ip}, Port=${this.port})"
@@ -39,47 +35,57 @@ object DB {
     val serversIPsAndPorts = hashMapOf<String, HashMap<UInt, UInt>>()
     val clientsIPsAndPorts = hashMapOf<String, HashMap<UInt, UInt>>()
     val clientPrefix = "192"
-    var clientsCounter = 100000
+    var clientsCounter = 100_000
     val serverPrefix = "127"
     var serversCounter = 0
     val LIFE_TIME_SECONDS = 10
 }
 
-object Regestiry: GrpcApi() {
-    /** Print the lists for testing*/
+object Registry: GrpcApi() {
+    /** Print the lists for testing */
     fun viewAll() {
         println(DB.clientsIPsAndPorts)
         println(DB.serversIPsAndPorts)
     }
 
-     /** Get the list of secured ips based on the type*/
-    private fun getList(targetType: TargetType): HashMap<String, HashMap<UInt, UInt>> {
-        return if (targetType.ipPortTarget == ClientTargetType.CLIENT) DB.clientsIPsAndPorts else DB.serversIPsAndPorts
-    }
+     /** Return the list of secured ips based on the type */
+    private fun getList(targetType: TargetType): HashMap<String, HashMap<UInt, UInt>> =
+       if (targetType.ipPortTarget == ClientTargetType.CLIENT) DB.clientsIPsAndPorts else DB.serversIPsAndPorts
 
-    /** Get the prefix the ip based on the type*/
-    private fun getPrefix(targetType: TargetType): String {
-        return if (targetType.ipPortTarget == ClientTargetType.CLIENT) DB.clientPrefix else DB.serverPrefix
-    }
+    /** Return the prefix the ip based on the type */
+    private fun getPrefix(targetType: TargetType): String =
+        if (targetType.ipPortTarget == ClientTargetType.CLIENT) DB.clientPrefix else DB.serverPrefix
 
-    /** Increase  and return the counter of secured ips based on the type to append it to the prefix*/
-    private fun getAndIncreaseCounter(targetType: TargetType): Int {
-        return if (targetType.ipPortTarget == ClientTargetType.CLIENT) ++DB.clientsCounter else ++DB.serversCounter
-    }
+    /**
+     * Increase the counter of secured ips based on the type
+     * @param targetType The type of the desired ip
+     * @return The counter of ips of the passed type */
+    private fun getAndIncreaseCounter(targetType: TargetType): Int =
+        if (targetType.ipPortTarget == ClientTargetType.CLIENT) ++DB.clientsCounter else ++DB.serversCounter
+
+    /**
+     * Determine the type of the ip (Client or Server)
+     * @param ipInfo The ip of class IpInformation
+     * @return The type of the ip of class TargetType*/
+    private fun determineTargetType(ipInfo: IpInformation): TargetType =
+        if (DB.clientsIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.CLIENT)
+        else if (DB.serversIPsAndPorts.containsKey(ipInfo.ip))  TargetType(ClientTargetType.SERVER)
+        else throw IllegalArgumentException("IP ${ipInfo.ip} not found")
+
 
     override fun secureIp(targetType: TargetType): IpInformation {
         val counter = getAndIncreaseCounter(targetType)
-        val secondField = counter / (65536) // 256*256
-        val thirdField = counter%65536 / 256
+        val secondField = counter / (65_536) // 256*256
+        val thirdField = counter%65_536 / 256
         val fourthField = counter % 256
-        val assignedIP = IpInformation("${getPrefix(targetType)}.$secondField.$thirdField.$fourthField", 0u)
-        getList(targetType).getOrPut(assignedIP.ip) { hashMapOf() }
-        return assignedIP
+        val assignedIpInfo = IpInformation("${getPrefix(targetType)}.$secondField.$thirdField.$fourthField", 0u)
+        getList(targetType)[assignedIpInfo.ip] = hashMapOf()
+        return assignedIpInfo
     }
 
     override fun securePort(ipInfo: IpInformation): IpInformation {
-        val targetType = if (DB.clientsIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.CLIENT) else TargetType(ClientTargetType.SERVER)
-        val newPort = getList(targetType)[ipInfo.ip]?.size?.toUInt()?.plus(1u) ?: 0u
+        val targetType = determineTargetType(ipInfo)
+        val newPort = getList(targetType).getValue(ipInfo.ip).entries.lastOrNull()?.value?.plus(1u) ?: 1u // get the last port
         getList(targetType)[ipInfo.ip]?.set(newPort, newPort)
         return IpInformation(ipInfo.ip, newPort)
     }
@@ -88,14 +94,13 @@ object Regestiry: GrpcApi() {
         return securePort(secureIp(targetType))
     }
 
-    /** Set the port to 0 to free it */
     override fun FreePort(ipInfo: IpInformation) {
-        val targetType = if (DB.clientsIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.CLIENT) else TargetType(ClientTargetType.SERVER)
-        getList(targetType)[ipInfo.ip]?.set(ipInfo.port, 0u)
+        val targetType = determineTargetType(ipInfo)
+        getList(targetType)[ipInfo.ip]?.set(ipInfo.port, 0u) // Set the port to 0 to free it
     }
 
     override fun FreeIpAndAllPorts(ipInfo: IpInformation) {
-        val targetType = if (DB.clientsIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.CLIENT) else TargetType(ClientTargetType.SERVER)
+        val targetType = determineTargetType(ipInfo)
         getList(targetType).remove(ipInfo.ip)
     }
 
@@ -114,7 +119,7 @@ object Regestiry: GrpcApi() {
 }
 
 fun main() {
-    val registry = Regestiry
+    val registry = Registry
 
     // Test: Secure IP for a client
     println("### Securing IP for Client ###")
@@ -143,7 +148,7 @@ fun main() {
     // Test: Free Port
     println("\n### Freeing a Port ###")
     registry.FreePort(securedPortServer1)
-    println("Port Freed for Server IP: ${securedPortServer1.ip}")
+    println("Port 1 Freed for Server IP: ${securedPortServer1.ip}")
     registry.viewAll() // View all to verify
 
     // Test: Free IP and All Ports
