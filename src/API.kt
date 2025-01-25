@@ -1,7 +1,12 @@
 import java.time.Duration
 import java.time.LocalTime
+import kotlin.math.ceil
 
-class IpInformation(val ip: String, val port: UInt)
+class IpInformation(val ip: String, val port: UInt){
+    override fun toString(): String {
+        return "(IP=${this.ip}, Port=${this.port})"
+    }
+}
 class ListOfIpInformation(val ipInfo: List<IpInformation>)
 enum class ClientTargetType {
     SERVER,
@@ -31,67 +36,67 @@ abstract class GrpcApi(){
 }
 
 object DB {
-    val clientsIPsAndPorts = hashMapOf<String, MutableList<UInt>>()
-    val serversIPsAndPorts = hashMapOf<String, MutableList<UInt>>()
-    val clientPrefix = "192.0.0"
-    var clientsCounter = 0
-    val serverPrefix = "127.0.0"
+    val serversIPsAndPorts = hashMapOf<String, HashMap<UInt, UInt>>()
+    val clientsIPsAndPorts = hashMapOf<String, HashMap<UInt, UInt>>()
+    val clientPrefix = "192"
+    var clientsCounter = 100000
+    val serverPrefix = "127"
     var serversCounter = 0
     val LIFE_TIME_SECONDS = 10
 }
 
 object Regestiry: GrpcApi() {
+    /** Print the lists for testing*/
+    fun viewAll() {
+        println(DB.clientsIPsAndPorts)
+        println(DB.serversIPsAndPorts)
+    }
+
+     /** Get the list of secured ips based on the type*/
+    private fun getList(targetType: TargetType): HashMap<String, HashMap<UInt, UInt>> {
+        return if (targetType.ipPortTarget == ClientTargetType.CLIENT) DB.clientsIPsAndPorts else DB.serversIPsAndPorts
+    }
+
+    /** Get the prefix the ip based on the type*/
+    private fun getPrefix(targetType: TargetType): String {
+        return if (targetType.ipPortTarget == ClientTargetType.CLIENT) DB.clientPrefix else DB.serverPrefix
+    }
+
+    /** Increase  and return the counter of secured ips based on the type to append it to the prefix*/
+    private fun getAndIncreaseCounter(targetType: TargetType): Int {
+        return if (targetType.ipPortTarget == ClientTargetType.CLIENT) ++DB.clientsCounter else ++DB.serversCounter
+    }
+
     override fun secureIp(targetType: TargetType): IpInformation {
-        return when (targetType.ipPortTarget) {
-            ClientTargetType.CLIENT -> {
-                val IPinfo = IpInformation("${DB.clientPrefix}.${++DB.clientsCounter}", 0u)
-                DB.clientsIPsAndPorts.getOrPut(IPinfo.ip) { mutableListOf() }.add(IPinfo.port)
-                IPinfo
-            }
-            ClientTargetType.SERVER -> {
-                val IPinfo = IpInformation("${DB.serverPrefix}.${++DB.serversCounter}", 0u)
-                DB.serversIPsAndPorts.getOrPut(IPinfo.ip) { mutableListOf() }.add(IPinfo.port)
-                IPinfo
-            }
-        }
+        val counter = getAndIncreaseCounter(targetType)
+        val secondField = counter / (65536) // 256*256
+        val thirdField = counter%65536 / 256
+        val fourthField = counter % 256
+        val assignedIP = IpInformation("${getPrefix(targetType)}.$secondField.$thirdField.$fourthField", 0u)
+        getList(targetType).getOrPut(assignedIP.ip) { hashMapOf() }
+        return assignedIP
     }
 
     override fun securePort(ipInfo: IpInformation): IpInformation {
-        return when {
-            DB.clientsIPsAndPorts.containsKey(ipInfo.ip) -> {
-                val size = DB.clientsIPsAndPorts[ipInfo.ip]?.size?.toUInt() ?: 0u
-                DB.clientsIPsAndPorts[ipInfo.ip]?.add(size)
-                IpInformation(ipInfo.ip, size)
-            }
-            DB.serversIPsAndPorts.containsKey(ipInfo.ip) -> {
-                val size = DB.serversIPsAndPorts[ipInfo.ip]?.size?.toUInt() ?: 0u
-                DB.serversIPsAndPorts[ipInfo.ip]?.add(size)
-                IpInformation(ipInfo.ip, size)
-            }
-            else -> ipInfo
-        }
+        val targetType = if (DB.clientsIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.CLIENT) else TargetType(ClientTargetType.SERVER)
+        val newPort = getList(targetType)[ipInfo.ip]?.size?.toUInt()?.plus(1u) ?: 0u
+        getList(targetType)[ipInfo.ip]?.set(newPort, newPort)
+        return IpInformation(ipInfo.ip, newPort)
     }
 
     override fun SecureIpAndPort(targetType: TargetType): IpInformation {
         return securePort(secureIp(targetType))
     }
 
+    /** Set the port to 0 to free it */
     override fun FreePort(ipInfo: IpInformation) {
-        when {
-            DB.clientsIPsAndPorts.containsKey(ipInfo.ip) ->
-                DB.clientsIPsAndPorts[ipInfo.ip]?.set(ipInfo.port.toInt(), 0u)
-            DB.serversIPsAndPorts.containsKey(ipInfo.ip) ->
-                DB.clientsIPsAndPorts[ipInfo.ip]?.set(ipInfo.port.toInt(), 0u)
-        }
+        val targetType = if (DB.clientsIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.CLIENT) else TargetType(ClientTargetType.SERVER)
+        getList(targetType)[ipInfo.ip]?.set(ipInfo.port, 0u)
     }
 
     override fun FreeIpAndAllPorts(ipInfo: IpInformation) {
-        when {
-            DB.clientsIPsAndPorts.containsKey(ipInfo.ip) ->
-                DB.clientsIPsAndPorts.remove(ipInfo.ip)
-            DB.serversIPsAndPorts.containsKey(ipInfo.ip) ->
-                DB.clientsIPsAndPorts.remove(ipInfo.ip)
-        }
+        val targetType = if (DB.clientsIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.CLIENT) else TargetType(ClientTargetType.SERVER)
+        getList(targetType).remove(ipInfo.ip)
     }
 
     override fun SyncSecuredIpsAndPorts(listOfIpInfo: ListOfIpInformation) {
@@ -107,3 +112,48 @@ object Regestiry: GrpcApi() {
     }
 
 }
+
+fun main() {
+    val registry = Regestiry
+
+    // Test: Secure IP for a client
+    println("### Securing IP for Client ###")
+    val clientIp1 = registry.secureIp(TargetType(ClientTargetType.CLIENT))
+    println("Secured Client IP: $clientIp1")
+
+    val clientIp2 = registry.secureIp(TargetType(ClientTargetType.CLIENT))
+    println("Secured Client IP: $clientIp2")
+
+    // Test: Secure IP for a server
+    println("\n### Securing IP for Server ###")
+    val serverIp1 = registry.secureIp(TargetType(ClientTargetType.SERVER))
+    println("Secured Server IP: $serverIp1")
+
+    // Test: Secure Port for a Server IP
+    println("\n### Securing 2 Ports sequentially for Server ###")
+    val securedPortServer1 = registry.securePort(serverIp1)
+    val securedPortServer2 = registry.securePort(serverIp1)
+    println("Secured Port for Server IP: $securedPortServer1, $securedPortServer2")
+
+    // Test: Secure IP and Port together
+    println("\n### Securing IP and Port Together ###")
+    val securedIpAndPort = registry.SecureIpAndPort(TargetType(ClientTargetType.SERVER))
+    println("Secured IP and Port: $securedIpAndPort")
+
+    // Test: Free Port
+    println("\n### Freeing a Port ###")
+    registry.FreePort(securedPortServer1)
+    println("Port Freed for Server IP: ${securedPortServer1.ip}")
+    registry.viewAll() // View all to verify
+
+    // Test: Free IP and All Ports
+    println("\n### Freeing an IP and All Ports ###")
+    registry.FreeIpAndAllPorts(serverIp1)
+    println("Freed IP and All Ports for: ${serverIp1.ip}")
+    registry.viewAll() // View all to verify
+
+    // View Final State
+    println("\n### Final State of DB ###")
+    registry.viewAll()
+}
+
