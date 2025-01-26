@@ -90,7 +90,7 @@ object Registry: GrpcApi() {
         return IpInformation(ipInfo.ip, newPort)
     }
 
-    override fun SecureIpAndPort(targetType: TargetType): IpInformation {
+    override fun SecureIpAndPort(targetType: TargetType): IpInformation { // wrong formatting
         return securePort(secureIp(targetType))
     }
 
