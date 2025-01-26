@@ -1,3 +1,6 @@
+import java.time.LocalDateTime
+import java.time.Duration
+
 class IpInformation(val ip: String, val port: UInt){
     override fun toString(): String {
         return "(IP=${this.ip}, Port=${this.port})"
@@ -32,13 +35,14 @@ abstract class GrpcApi(){
 }
 
 object DB {
-    val serversIPsAndPorts = hashMapOf<String, HashMap<UInt, UInt>>()
-    val clientsIPsAndPorts = hashMapOf<String, HashMap<UInt, UInt>>()
+    val serversIPsAndPorts = linkedMapOf<String, HashMap<UInt, UInt>>()
+    val clientsIPsAndPorts = linkedMapOf<String, HashMap<UInt, UInt>>()
+    val ipsAssignedDate = hashMapOf<String, LocalDateTime?>()
     val clientPrefix = "192"
     var clientsCounter = 100_000
     val serverPrefix = "127"
     var serversCounter = 0
-    val LIFE_TIME_SECONDS = 10
+    val LIFE_TIME_SECONDS = 2
 }
 
 object Registry: GrpcApi() {
@@ -46,6 +50,7 @@ object Registry: GrpcApi() {
     fun viewAll() {
         println(DB.clientsIPsAndPorts)
         println(DB.serversIPsAndPorts)
+        println(DB.ipsAssignedDate)
     }
 
      /** Return the list of secured ips based on the type */
@@ -72,15 +77,29 @@ object Registry: GrpcApi() {
         else if (DB.serversIPsAndPorts.containsKey(ipInfo.ip))  TargetType(ClientTargetType.SERVER)
         else throw IllegalArgumentException("IP ${ipInfo.ip} not found")
 
+    /**
+     * Assign ip for the user
+     * @param ip The ip to be stored
+     * @param targetType The type of the ip
+     * @return the IpInformation with the assigned ip*/
+    private fun assignIp(ip: String, targetType: TargetType): IpInformation{
+        val assignedIpInfo = IpInformation(ip, 0u)
+        getList(targetType)[assignedIpInfo.ip] = hashMapOf()
+        DB.ipsAssignedDate[assignedIpInfo.ip] = LocalDateTime.now().withNano(0)
+        return assignedIpInfo
+    }
 
     override fun secureIp(targetType: TargetType): IpInformation {
+        for (ip in getList(targetType).keys) {
+            if (DB.ipsAssignedDate[ip] == null || Duration.between(DB.ipsAssignedDate[ip], LocalDateTime.now()).toSeconds() >= DB.LIFE_TIME_SECONDS) {
+                return assignIp(ip, targetType)
+            }
+        }
         val counter = getAndIncreaseCounter(targetType)
         val secondField = counter / (65_536) // 256*256
         val thirdField = counter%65_536 / 256
         val fourthField = counter % 256
-        val assignedIpInfo = IpInformation("${getPrefix(targetType)}.$secondField.$thirdField.$fourthField", 0u)
-        getList(targetType)[assignedIpInfo.ip] = hashMapOf()
-        return assignedIpInfo
+        return assignIp("${getPrefix(targetType)}.$secondField.$thirdField.$fourthField", targetType)
     }
 
     override fun securePort(ipInfo: IpInformation): IpInformation {
@@ -101,7 +120,8 @@ object Registry: GrpcApi() {
 
     override fun FreeIpAndAllPorts(ipInfo: IpInformation) {
         val targetType = determineTargetType(ipInfo)
-        getList(targetType).remove(ipInfo.ip)
+        DB.ipsAssignedDate[ipInfo.ip] = null
+        getList(targetType)[ipInfo.ip] = hashMapOf()
     }
 
     override fun SyncSecuredIpsAndPorts(listOfIpInfo: ListOfIpInformation) {
@@ -156,6 +176,7 @@ fun main() {
     registry.FreeIpAndAllPorts(serverIp1)
     println("Freed IP and All Ports for: ${serverIp1.ip}")
     registry.viewAll() // View all to verify
+
 
     // View Final State
     println("\n### Final State of DB ###")
