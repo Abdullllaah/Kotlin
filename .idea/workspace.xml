@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d713be23-cb38-4b74-b974-089ee7838cf2" name="Changes" comment="Add gradle">
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/ClientTargetType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/DB.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/DomainNameInformation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/GrpcApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/IpInformation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/ListOfAllowedIPs.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/ListOfIpInformation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/Main.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/kotlin/org/example/TargetType.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="GrpcApi" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Abdullllaah&quot;
+  }
+}</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="e3c4c0b0-096d-4712-a834-9f3506939d42" />
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Abdullllaah/Kotlin.git&quot;,
+    &quot;accountId&quot;: &quot;e3c4c0b0-096d-4712-a834-9f3506939d42&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2rqOOEvi0J1XvgZ86qmzASEUwch" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Gradle.Build Test.executor": "Run",
+    "JUnit.RegistryTest.executor": "Run",
+    "JUnit.RegistryTest.freeIpAndAllPorts.executor": "Run",
+    "JUnit.RegistryTest.freePortTest.executor": "Run",
+    "JUnit.RegistryTest.secureIp.executor": "Run",
+    "JUnit.RegistryTest.secureIpAndPortTest.executor": "Run",
+    "JUnit.RegistryTest.secureIpTest.executor": "Run",
+    "JUnit.RegistryTest.securePortTest.executor": "Run",
+    "Kotlin.APIKt.executor": "Run",
+    "Kotlin.AppKt (1).executor": "Run",
+    "Kotlin.AppKt.executor": "Run",
+    "Kotlin.MainKt.executor": "Run",
+    "Kotlin.RegistryTestKt.executor": "Run",
+    "Kotlin.TestsKt.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "9fc86ada",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/abdul/IdeaProjects/Test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/abdul/IdeaProjects/Test/src/Main.kt",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\abdul\IdeaProjects" />
+      <recent name="C:\Users\abdul\IdeaProjects\Test\app\src\main\kotlin" />
+      <recent name="C:\Users\abdul\IdeaProjects\Test\app\src\test\kotlin" />
+      <recent name="C:\Users\abdul\IdeaProjects\Test\Diagrams" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Kotlin.AppKt">
+    <configuration name="RegistryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RegistryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegistryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RegistryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegistryTest.securePortTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RegistryTest" />
+      <option name="METHOD_NAME" value="securePortTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegistryTest.securePortTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RegistryTest" />
+      <option name="METHOD_NAME" value="securePortTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="APIKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="APIKt" />
+      <module name="Test" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="APIKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="APIKt" />
+      <module name="Test" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AppKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kotlin.AppKt" />
+      <module name="GrpcApi.app.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AppKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kotlin.AppKt" />
+      <module name="GrpcApi.app.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AppKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="AppKt" />
+      <module name="GrpcApi.app.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AppKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="AppKt" />
+      <module name="GrpcApi.app.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AppKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="AppKt" />
+      <module name="GrpcApi.app.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.AppKt" />
+        <item itemvalue="Kotlin.AppKt (1)" />
+        <item itemvalue="Kotlin.AppKt (1)" />
+        <item itemvalue="Kotlin.APIKt" />
+        <item itemvalue="JUnit.RegistryTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.117" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.117" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d713be23-cb38-4b74-b974-089ee7838cf2" name="Changes" comment="" />
+      <created>1737283117109</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1737283117109</updated>
+      <workItem from="1737283119046" duration="6092000" />
+      <workItem from="1737300451778" duration="10980000" />
+      <workItem from="1737525402710" duration="2290000" />
+      <workItem from="1737544015704" duration="11810000" />
+      <workItem from="1737757664243" duration="2767000" />
+      <workItem from="1737829886623" duration="1766000" />
+      <workItem from="1737831730629" duration="9895000" />
+      <workItem from="1737907572586" duration="836000" />
+      <workItem from="1737956942289" duration="3187000" />
+      <workItem from="1738064338209" duration="48000" />
+      <workItem from="1738064397950" duration="200000" />
+      <workItem from="1738064622815" duration="18000" />
+      <workItem from="1738064702514" duration="701000" />
+      <workItem from="1738065462142" duration="188000" />
+      <workItem from="1738084446676" duration="464000" />
+      <workItem from="1738084927427" duration="758000" />
+    </task>
+    <task id="LOCAL-00001" summary="First Commit">
+      <option name="closed" value="true" />
+      <created>1737482882720</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1737482882720</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Unrelated File">
+      <option name="closed" value="true" />
+      <created>1737483473392</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1737483473392</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Update">
+      <option name="closed" value="true" />
+      <created>1737546265046</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1737546265046</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Update">
+      <option name="closed" value="true" />
+      <created>1737575925012</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1737575925012</updated>
+    </task>
+    <task id="LOCAL-00005" summary="V1">
+      <option name="closed" value="true" />
+      <created>1737756078933</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737756078933</updated>
+    </task>
+    <task id="LOCAL-00006" summary="V1.1">
+      <option name="closed" value="true" />
+      <created>1737831953729</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737831953729</updated>
+    </task>
+    <task id="LOCAL-00007" summary="V1.2">
+      <option name="closed" value="true" />
+      <created>1737837311032</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1737837311032</updated>
+    </task>
+    <task id="LOCAL-00008" summary="V1.3">
+      <option name="closed" value="true" />
+      <created>1737876774837</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1737876774837</updated>
+    </task>
+    <task id="LOCAL-00009" summary="V1.4">
+      <option name="closed" value="true" />
+      <created>1737908385209</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1737908385209</updated>
+    </task>
+    <task id="LOCAL-00010" summary="V1.5">
+      <option name="closed" value="true" />
+      <created>1737957878018</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1737957878019</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Delete files">
+      <option name="closed" value="true" />
+      <created>1738064492649</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1738064492649</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add gradle">
+      <option name="closed" value="true" />
+      <created>1738064551174</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1738064551174</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Add gradle">
+      <option name="closed" value="true" />
+      <created>1738085101847</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1738085101847</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First Commit" />
+    <MESSAGE value="Unrelated File" />
+    <MESSAGE value="Update" />
+    <MESSAGE value="first version" />
+    <MESSAGE value="V1" />
+    <MESSAGE value="V1.1" />
+    <MESSAGE value="V1.2" />
+    <MESSAGE value="V1.3" />
+    <MESSAGE value="V1.4" />
+    <MESSAGE value="V1.5" />
+    <MESSAGE value="Delete files" />
+    <MESSAGE value="Add gradle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add gradle" />
+  </component>
+</project>

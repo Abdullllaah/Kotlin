@@ -1,0 +1,128 @@
+Index: app/src/main/kotlin/org/example/App.kt
+===================================================================
+diff --git a/app/src/main/kotlin/org/example/App.kt b/app/src/main/kotlin/App.kt
+rename from app/src/main/kotlin/org/example/App.kt
+rename to app/src/main/kotlin/App.kt
+--- a/app/src/main/kotlin/org/example/App.kt	(revision f0699d60790718e9ce6f50b246342eb27751c45c)
++++ b/app/src/main/kotlin/App.kt	(date 1738065176459)
+@@ -1,4 +1,3 @@
+-package org.example
+ import java.time.LocalDateTime
+ import java.time.Duration
+ 
+@@ -18,17 +17,17 @@
+ //#####################################################
+ abstract class GrpcApi(){
+     /*Secure random ip for the caller (governed by the type of the target) and return the secured ip information*/
+-    abstract fun secureIp(targetType:TargetType): IpInformation
++    abstract fun secureIp(targetType: TargetType): IpInformation
+     /*Secure a random port for the given ip*/
+-    abstract fun securePort(ipInfo:IpInformation): IpInformation
++    abstract fun securePort(ipInfo: IpInformation): IpInformation
+     /*Secure random ip and port for the caller (governed by the type of the target) and return the secured ip and port information*/
+-    abstract fun SecureIpAndPort(targetType:TargetType): IpInformation
++    abstract fun SecureIpAndPort(targetType: TargetType): IpInformation
+     /*Free the given port from the given ip*/
+-    abstract fun FreePort(ipInfo:IpInformation): Unit
++    abstract fun FreePort(ipInfo: IpInformation): Unit
+     /*Free the given ip and all ports associated with it*/
+-    abstract fun FreeIpAndAllPorts(ipInfo:IpInformation): Unit
++    abstract fun FreeIpAndAllPorts(ipInfo: IpInformation): Unit
+     /*Sync the currently in use ips and ports from the caller to the registry*/
+-    abstract fun SyncSecuredIpsAndPorts(listOfIpInfo:ListOfIpInformation): Unit
++    abstract fun SyncSecuredIpsAndPorts(listOfIpInfo: ListOfIpInformation): Unit
+     /*Gets the domain name(endpoint) for the servers services(should then be used with DNS to get the actual ip)*/
+     abstract fun GetDomainName(): DomainNameInformation
+     /*Gets the allowed ips for clients*/
+@@ -75,7 +74,7 @@
+      * @return The type of the ip of class TargetType*/
+     private fun determineTargetType(ipInfo: IpInformation): TargetType =
+         if (DB.clientsIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.CLIENT)
+-        else if (DB.serversIPsAndPorts.containsKey(ipInfo.ip))  TargetType(ClientTargetType.SERVER)
++        else if (DB.serversIPsAndPorts.containsKey(ipInfo.ip)) TargetType(ClientTargetType.SERVER)
+         else throw IllegalArgumentException("IP ${ipInfo.ip} not found")
+ 
+     /**
+@@ -83,7 +82,7 @@
+      * @param ip The ip to be stored
+      * @param targetType The type of the ip
+      * @return the IpInformation with the assigned ip*/
+-    private fun assignIp(ip: String, targetType: TargetType): IpInformation{
++    private fun assignIp(ip: String, targetType: TargetType): IpInformation {
+         val assignedIpInfo = IpInformation(ip, 0u)
+         getList(targetType)[assignedIpInfo.ip] = hashMapOf()
+         DB.ipsAssignedDate[assignedIpInfo.ip] = LocalDateTime.now().withNano(0)
+@@ -144,43 +143,43 @@
+ 
+     // Test: Secure IP for a client
+     println("### Securing IP for Client ###")
+-    val clientIp1 = registry.secureIp(TargetType(ClientTargetType.CLIENT))
++    val clientIp1 = Registry.secureIp(TargetType(ClientTargetType.CLIENT))
+     println("Secured Client IP: $clientIp1")
+ 
+-    val clientIp2 = registry.secureIp(TargetType(ClientTargetType.CLIENT))
++    val clientIp2 = Registry.secureIp(TargetType(ClientTargetType.CLIENT))
+     println("Secured Client IP: $clientIp2")
+ 
+     // Test: Secure IP for a server
+     println("\n### Securing IP for Server ###")
+-    val serverIp1 = registry.secureIp(TargetType(ClientTargetType.SERVER))
++    val serverIp1 = Registry.secureIp(TargetType(ClientTargetType.SERVER))
+     println("Secured Server IP: $serverIp1")
+ 
+     // Test: Secure Port for a Server IP
+     println("\n### Securing 2 Ports sequentially for Server ###")
+-    val securedPortServer1 = registry.securePort(serverIp1)
+-    val securedPortServer2 = registry.securePort(serverIp1)
++    val securedPortServer1 = Registry.securePort(serverIp1)
++    val securedPortServer2 = Registry.securePort(serverIp1)
+     println("Secured Port for Server IP: $securedPortServer1, $securedPortServer2")
+ 
+     // Test: Secure IP and Port together
+     println("\n### Securing IP and Port Together ###")
+-    val securedIpAndPort = registry.SecureIpAndPort(TargetType(ClientTargetType.SERVER))
++    val securedIpAndPort = Registry.SecureIpAndPort(TargetType(ClientTargetType.SERVER))
+     println("Secured IP and Port: $securedIpAndPort")
+ 
+     // Test: Free Port
+     println("\n### Freeing a Port ###")
+-    registry.FreePort(securedPortServer1)
++    Registry.FreePort(securedPortServer1)
+     println("Port 1 Freed for Server IP: ${securedPortServer1.ip}")
+-    registry.viewAll() // View all to verify
++    Registry.viewAll() // View all to verify
+ 
+     // Test: Free IP and All Ports
+     println("\n### Freeing an IP and All Ports ###")
+-    registry.FreeIpAndAllPorts(serverIp1)
++    Registry.FreeIpAndAllPorts(serverIp1)
+     println("Freed IP and All Ports for: ${serverIp1.ip}")
+-    registry.viewAll() // View all to verify
++    Registry.viewAll() // View all to verify
+ 
+ 
+     // View Final State
+     println("\n### Final State of DB ###")
+-    registry.viewAll()
++    Registry.viewAll()
+ }
+ 
+Index: app/src/test/kotlin/org/example/AppTest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example\r\n\r\nimport org.junit.jupiter.api.Assertions.*\r\nimport org.junit.jupiter.api.Test\r\nimport org.junit.jupiter.api.MethodOrderer.OrderAnnotation\r\nimport org.junit.jupiter.api.Order\r\nimport org.junit.jupiter.api.TestMethodOrder\r\n\r\n@TestMethodOrder(OrderAnnotation::class)\r\nclass RegistryTest {\r\n\r\n    @Test\r\n    @Order(1)\r\n    fun secureIpTest() {\r\n        println(\"Secure IP Test\")\r\n        val expected = IpInformation(\"192.1.134.161\", 0u)\r\n        val actual = Registry.secureIp(TargetType(ClientTargetType.CLIENT))\r\n        assertEquals(expected.toString(), actual.toString())\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    fun securePortTest() {\r\n        println(\"Secure Port Test\")\r\n        val expected = IpInformation(\"127.0.0.1\", 1u)\r\n        val actual = Registry.securePort(Registry.secureIp(TargetType(ClientTargetType.SERVER)))\r\n        assertEquals(expected.toString(), actual.toString())\r\n    }\r\n\r\n    @Test\r\n    @Order(3)\r\n    fun secureIpAndPortTest() {\r\n        println(\"Secure IP and Port Test\")\r\n        val expected = IpInformation(\"127.0.0.2\", 1u)\r\n        val actual = Registry.SecureIpAndPort(TargetType(ClientTargetType.SERVER))\r\n        assertEquals(expected.toString(), actual.toString())\r\n    }\r\n\r\n    @Test\r\n    @Order(4)\r\n    fun freePortTest() {\r\n        println(\"Free IP Test\")\r\n        val ipInfo = Registry.SecureIpAndPort(TargetType(ClientTargetType.SERVER))\r\n        Registry.FreePort(ipInfo)\r\n        val expected = hashMapOf<UInt, UInt>(1u to 0u)\r\n        val actual = DB.serversIPsAndPorts[ipInfo.ip]\r\n        assertEquals(expected, actual)\r\n    }\r\n\r\n    @Test\r\n    @Order(5)\r\n    fun freeIpAndAllPorts() {\r\n        println(\"Free IP and All Ports\")\r\n        val ipInfo = Registry.SecureIpAndPort(TargetType(ClientTargetType.SERVER))\r\n        Registry.FreeIpAndAllPorts(ipInfo)\r\n        assertNull(DB.ipsAssignedDate[ipInfo.ip])\r\n    }\r\n}\r\n//\r\n//fun main() {\r\n// val test = RegistryTest()\r\n// test.secureIpTest()\r\n// test.securePortTest()\r\n// test.secureIpAndPortTest()\r\n// test.freePortTest()\r\n// test.freeIpAndAllPorts()\r\n//}
+===================================================================
+diff --git a/app/src/test/kotlin/org/example/AppTest.kt b/app/src/test/kotlin/org/example/AppTest.kt
+--- a/app/src/test/kotlin/org/example/AppTest.kt	(revision f0699d60790718e9ce6f50b246342eb27751c45c)
++++ b/app/src/test/kotlin/org/example/AppTest.kt	(date 1738065166865)
+@@ -1,5 +1,10 @@
+ package org.example
+ 
++import ClientTargetType
++import DB
++import IpInformation
++import Registry
++import TargetType
+ import org.junit.jupiter.api.Assertions.*
+ import org.junit.jupiter.api.Test
+ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation

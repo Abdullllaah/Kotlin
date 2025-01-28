@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.RegistryTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-01-27T11:38:57" hostname="ABDULLAH" time="0.344">
+  <properties/>
+  <testcase name="secureIpTest()" classname="org.example.RegistryTest" time="0.278"/>
+  <testcase name="securePortTest()" classname="org.example.RegistryTest" time="0.035"/>
+  <testcase name="secureIpAndPortTest()" classname="org.example.RegistryTest" time="0.005"/>
+  <testcase name="freePortTest()" classname="org.example.RegistryTest" time="0.006"/>
+  <testcase name="freeIpAndAllPorts()" classname="org.example.RegistryTest" time="0.006"/>
+  <system-out><![CDATA[Secure IP Test
+Secure Port Test
+Secure IP and Port Test
+Free IP Test
+Free IP and All Ports
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
